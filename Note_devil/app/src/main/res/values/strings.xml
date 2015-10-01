@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Note_devil</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_note_list">note_list</string>
+    <string name="title_activity_note_edit">note_edit</string>
+    <string name="title_activity_note_todo">note_todo</string>
+    <string name="title_activity_note_finished">note_finished</string>
+</resources>
