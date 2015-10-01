@@ -1,0 +1,1 @@
+Androdi Project Note for mySelf
