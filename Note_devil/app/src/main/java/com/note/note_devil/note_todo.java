@@ -41,14 +41,14 @@ public class note_todo extends Activity {
         db = database.getReadableDatabase();
 //        Cursor c = db.query("note_list",{"note_status"},"0",null,null,null,null);//查询并获得游标
         Cursor c = db.rawQuery("select * from note_list where note_status=?",new String[]{"0"});
-        if(c.moveToFirst()){//判断游标是否为空
-            for(int i = 0;i < c.getCount() - 1; i++){
-                Map<String, Object> listitem = new HashMap<String, Object>();
-                c.move(i);//移动到指定记录
-                String title = c.getString(c.getColumnIndex("note_title"));
-                listitem.put("title", title);
-                list_items.add(listitem);
-            }
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            Map<String, Object> listitem = new HashMap<String, Object>();
+            String title = c.getString(c.getColumnIndex("note_title"));
+            listitem.put("title", title);
+            list_items.add(listitem);
+            c.moveToNext();
         }
         SimpleAdapter adapter = new SimpleAdapter(this, list_items, R.layout.activity_note_item,
         new String[]{"title"}, new int[]{R.id.title});
