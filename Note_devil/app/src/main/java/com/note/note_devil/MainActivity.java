@@ -2,13 +2,14 @@ package com.note.note_devil;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 
 public class MainActivity extends TabActivity {
 
-
+    Bundle bundle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +39,14 @@ public class MainActivity extends TabActivity {
         return super.onOptionsItemSelected(item);
     }
     public void getNoteList(){
+        bundle = this.getIntent().getExtras();
+        int tab_id = 0;
+        if(bundle != null){
+            tab_id = Integer.parseInt(bundle.getString("tab_id"));
+        }else{
+            Log.v("zl_debug", "main get extra failed");
+            tab_id = 0;
+        }
         TabHost tab = getTabHost();
         Intent intent_note_list = new Intent(this, note_list.class);
         Intent intent_note_todo = new Intent(this,note_todo.class);
@@ -48,6 +57,6 @@ public class MainActivity extends TabActivity {
         tab.addTab(tab.newTabSpec("Todo").setIndicator("Todo", null).setContent(intent_note_todo));
         tab.addTab(tab.newTabSpec("Finished").setIndicator("Finished", null).setContent(intent_note_finished));
         tab.addTab(tab.newTabSpec("Edit").setIndicator("Edit", null).setContent(intent_note_edit));
-        tab.setCurrentTab(0);
+        tab.setCurrentTab(tab_id);
     }
 }

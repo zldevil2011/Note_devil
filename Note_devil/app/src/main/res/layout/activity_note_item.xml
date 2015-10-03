@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_weight="1"
+    android:descendantFocusability="blocksDescendants"
     >
     <LinearLayout
         android:layout_width="fill_parent"
@@ -18,8 +19,18 @@
             android:layout_weight="1"
             >
         </TextView>
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
         <CheckBox
-            android:id="@+id/list_item_status"
+            android:id="@+id/check_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 

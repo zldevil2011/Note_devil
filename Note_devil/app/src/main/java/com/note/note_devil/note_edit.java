@@ -16,11 +16,23 @@ import android.widget.Toast;
 import com.note.note_devil.com.database.note.note_devil.DatabaseHelper;
 
 public class note_edit extends Activity {
-
+    Bundle bundle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_edit);
+        bundle = this.getIntent().getExtras();
+        if(bundle != null){
+            Log.v("zl_debug", "fine");
+            String title = bundle.getString("title");
+            String content = bundle.getString("content");
+            String n_id = bundle.getString("n_id");
+            EditText title_e = (EditText)findViewById(R.id.title), content_e = (EditText)findViewById(R.id.content);
+            title_e.setText(title);
+            content_e.setText(content);
+        }else{
+            Log.v("zl_debug", "get extra failed");
+        }
         listening();
     }
     public void listening(){
