@@ -38,7 +38,7 @@ public class note_edit extends Activity {
         if(String.valueOf(settings.getAll()) != "{}"){
             String title = settings.getString("title", "");
             String content = settings.getString("content", "");
-            int id = Integer.parseInt(settings.getString("n_id", ""));
+            String id = settings.getString("n_id", "");
             EditText title_e = (EditText)findViewById(R.id.title), content_e = (EditText)findViewById(R.id.content);
             title_e.setText(title);
             content_e.setText(content);
@@ -47,13 +47,13 @@ public class note_edit extends Activity {
             editor.remove("content");
             editor.remove("n_id");
             editor.commit();
-            listening(1);
+            listening(1, id);
         }else{
-            listening(0);
+            listening(0, "-1");
         }
 
     }
-    public void listening(final int edit_type){
+    public void listening(final int edit_type, final String note_id){
         Button save = (Button)findViewById(R.id.save), cancel = (Button)findViewById(R.id.cancel);
         final EditText title = (EditText)findViewById(R.id.title), content = (EditText)findViewById(R.id.content);
         save.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +67,7 @@ public class note_edit extends Activity {
                 if(edit_type == 0){
                     res = save_note(note_title, note_content, 0, "0");
                 }else{
-                    res = save_note(note_title, note_content, 0, "1");
+                    res = save_note(note_title, note_content, 1, note_id);
                 }
                 if(res == true){
                     Toast.makeText(getApplicationContext(), "新建成功",Toast.LENGTH_SHORT).show();
@@ -85,12 +85,14 @@ public class note_edit extends Activity {
         db = database.getReadableDatabase();
         ContentValues cv = new ContentValues();
         if(type == 0){
+            Log.v("zl_debug", "create new item");
             cv.put("note_title", title);
             cv.put("note_content", content);
             cv.put("note_status", "0");
             db.insert("note_list", null, cv);
             return true;
         }else{
+            Log.v("zl_debug", "update table");
             cv.put("note_title", title);
             cv.put("note_content", content);
             cv.put("note_status", "0");
