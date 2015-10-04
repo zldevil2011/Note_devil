@@ -34,17 +34,26 @@ public class note_edit extends Activity {
             Log.v("zl_debug", "get extra failed");
         }
         SharedPreferences settings = getSharedPreferences("setting", 0);
-        if(settings != null){
+        Log.v("zl_debug", String.valueOf(settings.getAll()));
+        if(String.valueOf(settings.getAll()) != "{}"){
             String title = settings.getString("title", "");
             String content = settings.getString("content", "");
             int id = Integer.parseInt(settings.getString("n_id", ""));
             EditText title_e = (EditText)findViewById(R.id.title), content_e = (EditText)findViewById(R.id.content);
             title_e.setText(title);
             content_e.setText(content);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.remove("title");
+            editor.remove("content");
+            editor.remove("n_id");
+            editor.commit();
+            listening(1);
+        }else{
+            listening(0);
         }
-        listening();
+
     }
-    public void listening(){
+    public void listening(final int edit_type){
         Button save = (Button)findViewById(R.id.save), cancel = (Button)findViewById(R.id.cancel);
         final EditText title = (EditText)findViewById(R.id.title), content = (EditText)findViewById(R.id.content);
         save.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +63,12 @@ public class note_edit extends Activity {
                 String note_title = title.getText().toString(), note_content = content.getText().toString();
                 Log.v("zl_debug_note_title", note_title);
                 Log.v("zl_debug_note_content", note_content);
-                Boolean res = save_note(note_title, note_content, 0, 0);
+                Boolean res = false;
+                if(edit_type == 0){
+                    res = save_note(note_title, note_content, 0, "0");
+                }else{
+                    res = save_note(note_title, note_content, 0, "1");
+                }
                 if(res == true){
                     Toast.makeText(getApplicationContext(), "新建成功",Toast.LENGTH_SHORT).show();
                     TabHost tab = ((TabActivity)getParent()).getTabHost();
@@ -65,7 +79,7 @@ public class note_edit extends Activity {
             }
         });
     }
-    public Boolean save_note(String title, String content, int type, int id){
+    public Boolean save_note(String title, String content, int type, String id){
         DatabaseHelper database = new DatabaseHelper(this);
         SQLiteDatabase db = null;
         db = database.getReadableDatabase();
@@ -77,7 +91,13 @@ public class note_edit extends Activity {
             db.insert("note_list", null, cv);
             return true;
         }else{
-            return false;
+            cv.put("note_title", title);
+            cv.put("note_content", content);
+            cv.put("note_status", "0");
+            String whereClause = "_id=?";//修改条件
+            String[] whereArgs = {id};//修改条件的参数
+            db.update("note_list", cv, whereClause, whereArgs);//执行修改
+            return true;
         }
 //        return false;
     }
