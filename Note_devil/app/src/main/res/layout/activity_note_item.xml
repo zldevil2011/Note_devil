@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:textColor="#f0f"
+            android:textColor="#000"
             android:paddingLeft="10dp"
             android:layout_weight="1"
             >
@@ -29,12 +29,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"/>
-        <CheckBox
-            android:id="@+id/check_status"
+        <TextView
+            android:id="@+id/note_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            />
+            android:textSize="15dp"
+            android:textColor="#f0f"/>
+        <TextView
+            android:id="@+id/note_status_finished"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="#0f0"/>
+        <!--<CheckBox-->
+            <!--android:id="@+id/check_status"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--/>-->
     </LinearLayout>
 
 </LinearLayout>
