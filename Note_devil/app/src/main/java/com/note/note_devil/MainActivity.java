@@ -53,10 +53,10 @@ public class MainActivity extends TabActivity {
         Intent intent_note_finished = new Intent(this,note_finished.class);
         Intent intent_note_edit = new Intent(this,note_edit.class);
 
-        tab.addTab(tab.newTabSpec("All").setIndicator("All", null).setContent(intent_note_list));
-        tab.addTab(tab.newTabSpec("Todo").setIndicator("Todo", null).setContent(intent_note_todo));
-        tab.addTab(tab.newTabSpec("Finished").setIndicator("Finished", null).setContent(intent_note_finished));
-        tab.addTab(tab.newTabSpec("Edit").setIndicator("Edit", null).setContent(intent_note_edit));
+        tab.addTab(tab.newTabSpec("All").setIndicator("All", null).setContent(intent_note_list.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+        tab.addTab(tab.newTabSpec("Todo").setIndicator("Todo", null).setContent(intent_note_todo.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+        tab.addTab(tab.newTabSpec("Finished").setIndicator("Finished", null).setContent(intent_note_finished.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+        tab.addTab(tab.newTabSpec("Edit").setIndicator("Edit", null).setContent(intent_note_edit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
         tab.setCurrentTab(tab_id);
     }
 }

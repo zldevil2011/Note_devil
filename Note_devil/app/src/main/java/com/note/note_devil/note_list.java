@@ -1,7 +1,9 @@
 package com.note.note_devil;
 
 import android.app.Activity;
+import android.app.TabActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -11,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
-import android.widget.Toast;
 
 import com.note.note_devil.com.database.note.note_devil.DatabaseHelper;
 
@@ -67,11 +68,16 @@ public class note_list extends Activity {
                 bundle.putString("title", title);
                 bundle.putString("content", content);
                 bundle.putString("n_id", n_id);
-                bundle.putString("tab_id", "3");
-//                MainActivity main = new MainActivity();
-//                main.getNoteList();
-                intent_note_edit.putExtras(bundle);
-                startActivity(intent_note_edit);
+                SharedPreferences settings = getSharedPreferences("setting", 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("title", title);
+                editor.putString("content", content);
+                editor.putString("n_id", n_id);
+                editor.commit();
+                TabHost tab = ((TabActivity)getParent()).getTabHost();
+                tab.setCurrentTab(3);
+//                intent_note_edit.putExtras(bundle);
+//                startActivity(intent_note_edit);
             }
         });
     }

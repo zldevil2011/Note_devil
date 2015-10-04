@@ -1,16 +1,16 @@
 package com.note.note_devil;
 
 import android.app.Activity;
+import android.app.TabActivity;
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.note.note_devil.com.database.note.note_devil.DatabaseHelper;
@@ -33,6 +33,15 @@ public class note_edit extends Activity {
         }else{
             Log.v("zl_debug", "get extra failed");
         }
+        SharedPreferences settings = getSharedPreferences("setting", 0);
+        if(settings != null){
+            String title = settings.getString("title", "");
+            String content = settings.getString("content", "");
+            int id = Integer.parseInt(settings.getString("n_id", ""));
+            EditText title_e = (EditText)findViewById(R.id.title), content_e = (EditText)findViewById(R.id.content);
+            title_e.setText(title);
+            content_e.setText(content);
+        }
         listening();
     }
     public void listening(){
@@ -48,6 +57,8 @@ public class note_edit extends Activity {
                 Boolean res = save_note(note_title, note_content, 0, 0);
                 if(res == true){
                     Toast.makeText(getApplicationContext(), "新建成功",Toast.LENGTH_SHORT).show();
+                    TabHost tab = ((TabActivity)getParent()).getTabHost();
+                    tab.setCurrentTab(0);
                 }else{
                     Toast.makeText(getApplicationContext(), "新建失败",Toast.LENGTH_SHORT).show();
                 }
